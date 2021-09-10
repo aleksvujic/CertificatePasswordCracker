@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "CertificatePasswordCracker": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
