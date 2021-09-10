@@ -14,9 +14,11 @@ namespace CertificatePasswordCracker
         public static void Main()
         {
             InitializeAllowedCharacters();
-            
+
             // get all certificates
-            string[] certificatePaths = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "Certificates"));
+            string certificatesPath = Path.Combine(Directory.GetCurrentDirectory(), "Certificates");
+            Console.WriteLine($"Trying to find certificates in {certificatesPath}");
+            string[] certificatePaths = Directory.GetFiles(certificatesPath);
             
             if (certificatePaths == null || certificatePaths.Length == 0)
             {
