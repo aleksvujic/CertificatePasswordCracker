@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
@@ -13,12 +14,6 @@ namespace CertificatePasswordCracker
         
         public static void Main()
         {
-            string[] fileNames = Directory.GetFiles(Directory.GetCurrentDirectory(), "*", SearchOption.AllDirectories);
-            foreach (string fileName in fileNames)
-            {
-                Console.WriteLine(fileName);
-            }
-            
             InitializeAllowedCharacters();
 
             // get all certificates
@@ -60,6 +55,8 @@ namespace CertificatePasswordCracker
 
         private static void CrackPassword(string certificatePath)
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
             string certificateName = Path.GetFileName(certificatePath);
             Console.WriteLine($"[{certificateName}] Cracking password");
             
@@ -79,14 +76,16 @@ namespace CertificatePasswordCracker
 
                         // password was correct
                         passwordFound = true;
-                        Console.WriteLine($"[{certificateName}] Password is: {password}, found in {numTries} tries");
+                        stopwatch.Stop();
+                        Console.WriteLine($"[{certificateName}] Password is: {password}, found in {numTries} tries, elapsed time: {FormatTimeSpan(stopwatch.Elapsed)}");
                         break;
                     }
                     catch { }
 
+                    // log a message every 1000 tries
                     if (numTries % 1000 == 0)
                     {
-                        Console.WriteLine($"[{certificateName}] Number of tries for length {length} is {numTries}");
+                        Console.WriteLine($"[{certificateName}] Number of tries for length {length} is {numTries}, elapsed time: {FormatTimeSpan(stopwatch.Elapsed)}");
                     }
 
                     numTries++;
@@ -113,6 +112,11 @@ namespace CertificatePasswordCracker
                     yield return $"{character}{combination}";
                 }
             }
+        }
+
+        private static string FormatTimeSpan(TimeSpan timeSpan)
+        {
+            return $"{timeSpan.Hours}h {timeSpan.Minutes}m {timeSpan.Seconds}s";
         }
     }
 }
