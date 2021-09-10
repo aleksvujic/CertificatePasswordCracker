@@ -12,4 +12,4 @@ docker stop certificate-password-cracker
 docker rm certificate-password-cracker
 
 echo "Deploying container..."
-docker run -d -v ./Certificates:/app/Certificates --name certificate-password-cracker --restart=always certificate-password-cracker:latest
+docker run -d -v ${pwd}/Certificates:/app/Certificates --name certificate-password-cracker --restart=always certificate-password-cracker:latest
