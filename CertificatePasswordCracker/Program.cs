@@ -13,6 +13,12 @@ namespace CertificatePasswordCracker
         
         public static void Main()
         {
+            string[] fileNames = Directory.GetFiles(Directory.GetCurrentDirectory(), "*", SearchOption.AllDirectories);
+            foreach (string fileName in fileNames)
+            {
+                Console.WriteLine(fileName);
+            }
+            
             InitializeAllowedCharacters();
 
             // get all certificates
