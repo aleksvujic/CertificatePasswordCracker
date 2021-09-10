@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 
@@ -20,7 +21,7 @@ namespace CertificatePasswordCracker
             string certificatesPath = Path.Combine(Directory.GetCurrentDirectory(), "Certificates");
             Console.WriteLine($"Trying to find certificates in {certificatesPath}");
             string[] certificatePaths = Directory.GetFiles(certificatesPath);
-            
+
             if (certificatePaths == null || certificatePaths.Length == 0)
             {
                 Console.WriteLine("No certificates found, exiting...");
@@ -67,7 +68,7 @@ namespace CertificatePasswordCracker
                 BigInteger numTries = 0;
                 bool passwordFound = false;
 
-                foreach (string password in CombinationsWithRepetition(ALLOWED_CHARACTERS, length))
+                foreach (string password in CombinationsWithRepetition(length))
                 {
                     try
                     {
@@ -98,19 +99,19 @@ namespace CertificatePasswordCracker
             }
         }
 
-        private static IEnumerable<string> CombinationsWithRepetition(IEnumerable<char> characters, int length)
+        private static IEnumerable<string> CombinationsWithRepetition(int length)
         {
             if (length <= 0)
             {
                 yield return string.Empty;
+                yield break;
             }
 
-            foreach (char character in characters)
+            IEnumerable<string> variations = ALLOWED_CHARACTERS.SelectMany(c => CombinationsWithRepetition(length-1), (c, s) => c + s);
+
+            foreach (string variation in variations)
             {
-                foreach (string combination in CombinationsWithRepetition(characters, length-1))
-                {
-                    yield return $"{character}{combination}";
-                }
+                yield return variation;
             }
         }
 
