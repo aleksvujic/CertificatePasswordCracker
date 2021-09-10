@@ -17,4 +17,5 @@ RUN dotnet publish "CertificatePasswordCracker.csproj" -c Release -o /app/publis
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+LABEL rep=certificate-password-cracker
 ENTRYPOINT ["dotnet", "CertificatePasswordCracker.dll"]
