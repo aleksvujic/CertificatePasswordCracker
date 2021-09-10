@@ -86,7 +86,7 @@ namespace CertificatePasswordCracker
                     // log a message every 1000 tries
                     if (numTries % 1000 == 0)
                     {
-                        Console.WriteLine($"[{certificateName}] Number of tries for length {length} is {numTries}, elapsed time: {FormatTimeSpan(stopwatch.Elapsed)}");
+                        Console.WriteLine($"[{certificateName}] Number of tries for length {length} is {numTries}/{BigInteger.Pow(ALLOWED_CHARACTERS.Count, length)}, elapsed time: {FormatTimeSpan(stopwatch.Elapsed)}");
                     }
 
                     numTries++;
