@@ -47,6 +47,11 @@ namespace CertificatePasswordCracker
             {
                 ALLOWED_CHARACTERS.Add(letter);
             }
+            
+            for (int i = 0; i <= 9; i++)
+            {
+                ALLOWED_CHARACTERS.Add((char)(i + 48));
+            }
 
             ALLOWED_CHARACTERS.Add('.');
             ALLOWED_CHARACTERS.Add('!');
